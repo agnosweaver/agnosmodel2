@@ -17,6 +17,14 @@ Below are answers to common questions about what you can and cannot do under thi
 
 ---
 
+### Why PolyForm Noncommercial?
+
+This project is released under the PolyForm Noncommercial License to balance open access with sustainability. The license ensures that individuals, researchers, educators, and other noncommercial users can benefit from the software freely, while organizations using it for commercial purposes are expected to obtain a license or subscription.
+
+The goal is to make the project accessible to the community, prevent unlicensed commercial exploitation, and provide a fair path for sustainable growth. This approach helps ensure that the creator can continue building and sharing useful tools, while commercial users contribute their fair share to the project’s success.
+
+---
+
 ### Is this open source?
 No. This is source-available software under the Polyform Noncommercial 1.0.0 license. You can read and use the code for noncommercial purposes, but commercial use is prohibited without a commercial license.
 

@@ -4,6 +4,8 @@ This project depends on the following third-party libraries.
 Each library retains its own license, as listed below.  
 Please review and comply with these licenses if you distribute or use this project.
 
+**Note:** The project core itself is dependency free except for standard python libraries. Additional dependencies arise from battries-included wrappers.
+
 | Name               | Version  | License                                       |
 |--------------------|----------|-----------------------------------------------|
 | aiohappyeyeballs   | 2.6.1    | Python Software Foundation License            |

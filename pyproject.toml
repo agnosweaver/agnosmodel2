@@ -22,9 +22,9 @@ classifiers = [
 dependencies = []
 
 [project.urls]
-Homepage = "https://github.com/gauravkg32/agnosmodel2"
-Repository = "https://github.com/gauravkg32/agnosmodel2"
-License = "https://github.com/gauravkg32/agnosmodel2/blob/main/LICENSE"
+Homepage = "https://github.com/agnosweaver/agnosmodel2"
+Repository = "https://github.com/agnosweaver/agnosmodel2"
+License = "https://github.com/agnosweaver/agnosmodel2/blob/main/LICENSE"
 
 [project.optional-dependencies]
 # Batteries-included features (HTTP, async HTTP, WebSocket)
