@@ -1,0 +1,11 @@
+# Core Dependencies
+# None, apart from Python standard library
+
+# Plus Dependencies (Optional)
+# For HTTPTransport
+requests # For regular HTTP requests
+aiohttp # For asynchronous HTTP requests
+# For WebSocketTransport
+websockets
+
+# Currently no other dependencies

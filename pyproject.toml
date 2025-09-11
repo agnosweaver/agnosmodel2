@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agnosmodel2"
+version = "0.0.1a0"
+description = "Universal Generative AI provider interface — switch providers without changing code."
+authors = [ { name = "gauravkg32", email = "agnosweaver@gmail.com" } ]
+license = { text = "PolyForm Noncommercial License 1.0.0" }
+requires-python = ">=3.11"
+keywords = ["generative-ai", "provider", "agnostic", "ai", "agnosweaver"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/gauravkg32/agnosmodel2"
+Repository = "https://github.com/gauravkg32/agnosmodel2"
+License = "https://github.com/gauravkg32/agnosmodel2/blob/main/LICENSE"
+
+[project.optional-dependencies]
+# Batteries-included features (HTTP, async HTTP, WebSocket)
+plus = [
+    "requests>=2.0",
+    "aiohttp>=3.8",
+    "websockets>=10.0",
+]
+# HTTP-only extras (sync + async)
+http = ["requests>=2.0", "aiohttp>=3.8"]
+# WebSocket-only extras
+ws = ["websockets>=10.0"]
+
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.package-dir]
+"" = "agnosmodel2"
+
+[tool.setuptools.packages.find]
+where = ["agnosmodel2"]
