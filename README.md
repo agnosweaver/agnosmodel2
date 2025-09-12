@@ -37,17 +37,13 @@ response = manager.generate("Hello world")  # Now uses Claude - same code!
 
 ## 📦 Installation
 
-### Coming Soon
 ```bash
-# PyPI (coming soon)
+# PyPI
 pip install agnosmodel2
 
-# GitHub (coming soon)
+# GitHub
 pip install git+https://github.com/agnosweaver/agnosmodel2.git
 ```
-
-### Current Alpha Access
-For now, download `agnosmodel2.py` directly from the repository and import it into your project.
 
 **Requirements**: Python 3.11 or higher
 
@@ -312,6 +308,6 @@ Licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE).
 
 ---
 
-**Made with ❤️ for developers tired of AI vendor lock-in**
+**Built for developers who hate being boxed in.**
 
-*Break free from the chains of single-provider dependency. Choose agnosmodel2.*
+*Pick, switch, and combine GenAI providers freely.*

@@ -70,9 +70,10 @@ class AgnosmodelError(Exception):
 class BaseGenProvider(ABC):
     """
     Minimal base class for all GenAI providers
-    
-    Providers must implement both sync and async variants.
-    This is core functionality, not a wrapper concern.
+
+    Providers are expected to implement both sync and async variants.
+    They are responsible for orchestrating requests, handling provider-specific quirks,
+    and returning standardized responses.
     """
     
     def __init__(self, name: str, config: Dict[str, Any]):
@@ -193,6 +194,7 @@ class GenManager:
 
     Register multiple GenAI providers, switch between them seamlessly.
     All providers expose the same generate/agenerate/stream interface.
+    Not responsible for provider-specific logic - that is up to the providers themselves.
     """
     
     def __init__(self):

@@ -6,15 +6,16 @@ build-backend = "setuptools.build_meta"
 name = "agnosmodel2"
 version = "0.0.1a0"
 description = "Universal Generative AI provider interface — switch providers without changing code."
+readme = "README.md"
 authors = [ { name = "gauravkg32", email = "agnosweaver@gmail.com" } ]
-license = { text = "PolyForm Noncommercial License 1.0.0" }
+license = "PolyForm-Noncommercial-1.0.0"
+license-files = ["LICENSE"]
 requires-python = ">=3.11"
 keywords = ["generative-ai", "provider", "agnostic", "ai", "agnosweaver"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
-    "License :: Other/Proprietary License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.11",
@@ -24,7 +25,7 @@ dependencies = []
 [project.urls]
 Homepage = "https://github.com/agnosweaver/agnosmodel2"
 Repository = "https://github.com/agnosweaver/agnosmodel2"
-License = "https://github.com/agnosweaver/agnosmodel2/blob/main/LICENSE"
+"License" = "https://polyformproject.org/licenses/noncommercial/1.0.0"
 
 [project.optional-dependencies]
 # Batteries-included features (HTTP, async HTTP, WebSocket)
@@ -41,8 +42,6 @@ ws = ["websockets>=10.0"]
 [tool.setuptools]
 zip-safe = false
 
-[tool.setuptools.package-dir]
-"" = "agnosmodel2"
-
 [tool.setuptools.packages.find]
-where = ["agnosmodel2"]
+where = ["."]
+include = ["agnosmodel2*"]
