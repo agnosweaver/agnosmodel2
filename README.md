@@ -160,12 +160,6 @@ for chunk in manager.generate_stream("Tell me a long story"):
 
 ### Multi-Modal Generation
 ```python
-# Stream from any provider that supports it
-for chunk in manager.generate_stream("Tell me a long story"):
-    print(chunk.content, end='', flush=True)
-    if chunk.is_final:
-        break
-
 # Handle different data types seamlessly
 audio_response = manager.generate("Say hello", output_type="audio")
 video_response = manager.generate("Create a short clip", output_type="video")
@@ -267,12 +261,12 @@ agnosmodel2 follows a clean, extensible architecture:
 
 ### Custom Transport Layer
 ```python
-class HTTPTransport(BaseModelTransport):
+class HTTPTransport:
     def send(self, request_data, **kwargs):
         # Custom HTTP implementation
         pass
 
-class gRPCTransport(BaseModelTransport):
+class gRPCTransport:
     def send(self, request_data, **kwargs):
         # Custom gRPC implementation
         pass
@@ -280,7 +274,7 @@ class gRPCTransport(BaseModelTransport):
 
 ### Response Parsing
 ```python
-class JSONResponseParser(BaseResponseParser):
+class JSONResponseParser:
     def parse_response(self, raw_response):
         return json.loads(raw_response)['content']
     

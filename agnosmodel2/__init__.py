@@ -28,7 +28,7 @@ from .agnosmodel2 import GenResponse, GenStreamChunk, AgnosmodelError
 from .agnosmodel2 import BaseGenProvider, BaseModelTransport, BaseResponseParser
 from .agnosmodel2 import ProviderRegistry, GenManager
 
-__version__ = "0.0.1a0"
+__version__ = "0.0.1a1"
 __all__ = [ 'GenResponse', 'GenStreamChunk', 'AgnosmodelError',
             'BaseGenProvider', 'BaseModelTransport', 'BaseResponseParser',
             'ProviderRegistry', 'GenManager'

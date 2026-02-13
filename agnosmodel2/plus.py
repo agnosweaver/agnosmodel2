@@ -16,13 +16,13 @@ Project Homepage: https://github.com/agnosweaver/agnosmodel2
 
 import os
 import json
+from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, List, Union, AsyncGenerator, Generator, Callable
 from datetime import datetime, UTC
 
 
-from .agnosmodel2 import (BaseModelTransport, BaseResponseParser, BaseGenProvider,
-                          GenResponse, GenStreamChunk, AgnosmodelError,
-                          GenManager, ProviderRegistry)
+from .agnosmodel2 import (BaseGenProvider, GenManager, ProviderRegistry,
+                          GenResponse, GenStreamChunk, AgnosmodelError)
 
 
 # ============================================================================
@@ -43,6 +43,53 @@ class ConfigurationError(AgnosmodelError):
 class APIError(GenProviderError):
     """Raised when API requests fail"""
     pass
+
+
+# ============================================================================
+# Plus Abstractions
+# ============================================================================
+
+
+# Transport abstraction layer
+class BaseModelTransport(ABC):
+    """Abstract base class for transport mechanisms"""
+    
+    @abstractmethod
+    def send(self, request_data: Any, **kwargs) -> Any:
+        """Send request synchronously"""
+        pass
+    
+    @abstractmethod
+    async def asend(self, request_data: Any, **kwargs) -> Any:
+        """Send request asynchronously"""
+        pass
+    
+    def send_stream(self, request_data: Any, **kwargs) -> Generator[Any, None, None]:
+        """Send request with streaming response synchronously. Optional: override if supports streaming"""
+        pass
+    
+    async def asend_stream(self, request_data: Any, **kwargs) -> AsyncGenerator[Any, None]:
+        """Send request with streaming response asynchronously. Optional: override if supports streaming"""
+        pass
+
+
+# Response parsing abstraction
+class BaseResponseParser(ABC):
+    """Abstract base class for response parsing"""
+    
+    @abstractmethod
+    def parse_response(self, raw_response: Any) -> Union[str, bytes, Any]:
+        """Parse complete response and extract content"""
+        pass
+    
+    @abstractmethod
+    def parse_stream_chunk(self, raw_chunk: Any) -> Optional[Union[str, bytes, Any]]:
+        """Parse streaming chunk and extract content, return None if chunk should be skipped"""
+        pass
+    
+    def get_content_type(self, raw_response: Any) -> Optional[str]:
+        """Detect content type from raw response"""
+        return None  # Default implementation returns None
 
 
 # ============================================================================
@@ -412,7 +459,9 @@ class GenericProvider(BaseGenProvider):
         else:
             raise ConfigurationError(f"Unsupported parser type: {parser_type}")
     
-    def generate(self, prompt: str, **kwargs) -> GenResponse:
+    def generate(self, prompt: Any, **kwargs) -> GenResponse:
+        if not isinstance(prompt, str):
+            raise TypeError("GenericProvider only supports string prompts")
         """Sync generation"""
         try:
             request_data = self._prepare_request(prompt, **kwargs)
@@ -432,8 +481,10 @@ class GenericProvider(BaseGenProvider):
         except Exception as e:
             raise APIError("Generation failed") from e
     
-    async def agenerate(self, prompt: str, **kwargs) -> GenResponse:
+    async def agenerate(self, prompt: Any, **kwargs) -> GenResponse:
         """Async generation"""
+        if not isinstance(prompt, str):
+            raise TypeError("GenericProvider only supports string prompts")
         try:
             request_data = self._prepare_request(prompt, **kwargs)
             raw_response = await self.transport.asend(request_data, **kwargs)
@@ -452,8 +503,10 @@ class GenericProvider(BaseGenProvider):
         except Exception as e:
             raise APIError("Async generation failed") from e
     
-    def generate_stream(self, prompt: str, **kwargs) -> Generator[GenStreamChunk, None, None]:
+    def generate_stream(self, prompt: Any, **kwargs) -> Generator[GenStreamChunk, None, None]:
         """Sync streaming generation"""
+        if not isinstance(prompt, str):
+            raise TypeError("GenericProvider only supports string prompts")
         try:
             request_data = self._prepare_request(prompt, **kwargs)
             
@@ -487,8 +540,10 @@ class GenericProvider(BaseGenProvider):
         except Exception as e:
             raise APIError("Streaming generation failed") from e
     
-    async def agenerate_stream(self, prompt: str, **kwargs) -> AsyncGenerator[GenStreamChunk, None]:
+    async def agenerate_stream(self, prompt: Any, **kwargs) -> AsyncGenerator[GenStreamChunk, None]:
         """Async streaming generation with true streaming support"""
+        if not isinstance(prompt, str):
+            raise TypeError("GenericProvider only supports string prompts")
         try:
             request_data = self._prepare_request(prompt, **kwargs)
             
@@ -522,8 +577,10 @@ class GenericProvider(BaseGenProvider):
         except Exception as e:
             raise APIError("Async streaming generation failed") from e
     
-    def _prepare_request(self, prompt: str, **kwargs) -> Dict[str, Any]:
+    def _prepare_request(self, prompt: Any, **kwargs) -> Dict[str, Any]:
         """Prepare request with template substitution"""
+        if not isinstance(prompt, str):
+            raise TypeError("GenericProvider only supports string prompts")
         request_data = json.loads(json.dumps(self.request_template))
         
         substitutions = {

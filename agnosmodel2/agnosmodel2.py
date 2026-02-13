@@ -82,20 +82,20 @@ class BaseGenProvider(ABC):
         self.model = config.get('model', 'default')
     
     @abstractmethod
-    def generate(self, prompt: str, **kwargs) -> GenResponse:
+    def generate(self, prompt: Any, **kwargs) -> GenResponse:
         """Generate data synchronously"""
         pass
     
     @abstractmethod
-    async def agenerate(self, prompt: str, **kwargs) -> GenResponse:
+    async def agenerate(self, prompt: Any, **kwargs) -> GenResponse:
         """Generate data asynchronously"""
         pass
     
-    def generate_stream(self, prompt: str, **kwargs) -> Generator[GenStreamChunk, None, None]:
+    def generate_stream(self, prompt: Any, **kwargs) -> Generator[GenStreamChunk, None, None]:
         """Stream generate data synchronously - optional override"""
         raise NotImplementedError("Streaming not supported by this provider")
     
-    async def agenerate_stream(self, prompt: str, **kwargs) -> AsyncGenerator[GenStreamChunk, None]:
+    async def agenerate_stream(self, prompt: Any, **kwargs) -> AsyncGenerator[GenStreamChunk, None]:
         """Stream generate data asynchronously - optional override"""
         raise NotImplementedError("Async streaming not supported by this provider")
     
@@ -103,48 +103,6 @@ class BaseGenProvider(ABC):
     def validate(self) -> bool:
         """Validate provider configuration"""
         pass
-
-
-# Transport abstraction layer
-class BaseModelTransport(ABC):
-    """Abstract base class for transport mechanisms"""
-    
-    @abstractmethod
-    def send(self, request_data: Any, **kwargs) -> Any:
-        """Send request synchronously"""
-        pass
-    
-    @abstractmethod
-    async def asend(self, request_data: Any, **kwargs) -> Any:
-        """Send request asynchronously"""
-        pass
-    
-    def send_stream(self, request_data: Any, **kwargs) -> Generator[Any, None, None]:
-        """Send request with streaming response synchronously. Optional: override if supports streaming"""
-        pass
-    
-    async def asend_stream(self, request_data: Any, **kwargs) -> AsyncGenerator[Any, None]:
-        """Send request with streaming response asynchronously. Optional: override if supports streaming"""
-        pass
-
-
-# Response parsing abstraction
-class BaseResponseParser(ABC):
-    """Abstract base class for response parsing"""
-    
-    @abstractmethod
-    def parse_response(self, raw_response: Any) -> Union[str, bytes, Any]:
-        """Parse complete response and extract content"""
-        pass
-    
-    @abstractmethod
-    def parse_stream_chunk(self, raw_chunk: Any) -> Optional[Union[str, bytes, Any]]:
-        """Parse streaming chunk and extract content, return None if chunk should be skipped"""
-        pass
-    
-    def get_content_type(self, raw_response: Any) -> Optional[str]:
-        """Detect content type from raw response"""
-        return None  # Default implementation returns None
 
 
 # ============================================================================
@@ -247,19 +205,19 @@ class GenManager:
         return self.providers[target]
     
     # Core routing methods - delegate to provider
-    def generate(self, prompt: str, provider: Optional[str] = None, **kwargs) -> GenResponse:
+    def generate(self, prompt: Any, provider: Optional[str] = None, **kwargs) -> GenResponse:
         """Generate text using specified or current provider"""
         return self.get_provider(provider).generate(prompt, **kwargs)
     
-    async def agenerate(self, prompt: str, provider: Optional[str] = None, **kwargs) -> GenResponse:
+    async def agenerate(self, prompt: Any, provider: Optional[str] = None, **kwargs) -> GenResponse:
         """Async generate text using specified or current provider"""
         return await self.get_provider(provider).agenerate(prompt, **kwargs)
     
-    def generate_stream(self, prompt: str, provider: Optional[str] = None, **kwargs) -> Generator[GenStreamChunk, None, None]:
+    def generate_stream(self, prompt: Any, provider: Optional[str] = None, **kwargs) -> Generator[GenStreamChunk, None, None]:
         """Stream generate text using specified or current provider"""
         yield from self.get_provider(provider).generate_stream(prompt, **kwargs)
     
-    async def agenerate_stream(self, prompt: str, provider: Optional[str] = None, **kwargs) -> AsyncGenerator[GenStreamChunk, None]:
+    async def agenerate_stream(self, prompt: Any, provider: Optional[str] = None, **kwargs) -> AsyncGenerator[GenStreamChunk, None]:
         """Async stream generate text using specified or current provider"""
         async for chunk in self.get_provider(provider).agenerate_stream(prompt, **kwargs):
             yield chunk

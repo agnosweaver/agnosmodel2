@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agnosmodel2"
-version = "0.0.1a0"
+version = "0.0.1a1"
 description = "Universal Generative AI provider interface — switch providers without changing code."
 readme = "README.md"
 authors = [ { name = "gauravkg32", email = "agnosweaver@gmail.com" } ]
